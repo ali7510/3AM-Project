@@ -16,7 +16,6 @@ namespace Ecommerce.Persistence.Data.Configurations
             builder.ToTable("Orders");
             builder.HasKey(o => o.Id);
             builder.Property(o => o.Id).ValueGeneratedOnAdd();
-            builder.Property(o=>o.Shipping_Address).IsRequired().HasMaxLength(500);
             builder.Property(o=>o.Total_Price).HasColumnType("decimal(18,2)");
             builder.Property(o => o.Status).HasConversion<string>().HasMaxLength(50);
             builder.Property(o => o.Payment_Status).HasConversion<string>().HasMaxLength(50);

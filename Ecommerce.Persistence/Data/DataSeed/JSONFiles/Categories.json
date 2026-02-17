@@ -1,0 +1,57 @@
+[
+  {
+    "Id": 1,
+    "Name": "Vehicles",
+    "Parent_Category_Id": null
+  },
+  {
+    "Id": 2,
+    "Name": "Accessories",
+    "Parent_Category_Id": null
+  },
+  {
+    "Id": 3,
+    "Name": "SUV",
+    "Parent_Category_Id": 1
+  },
+  {
+    "Id": 4,
+    "Name": "Sedan",
+    "Parent_Category_Id": 1
+  },
+  {
+    "Id": 5,
+    "Name": "Coupe",
+    "Parent_Category_Id": 1
+  },
+  {
+    "Id": 6,
+    "Name": "Exterior Accessories",
+    "Parent_Category_Id": 2
+  },
+  {
+    "Id": 7,
+    "Name": "Interior Accessories",
+    "Parent_Category_Id": 2
+  },
+  {
+    "Id": 8,
+    "Name": "Wheels & Tires",
+    "Parent_Category_Id": 2
+  },
+  {
+    "Id": 9,
+    "Name": "Car Audio & Electronics",
+    "Parent_Category_Id": 2
+  },
+  {
+    "Id": 10,
+    "Name": "Lighting",
+    "Parent_Category_Id": 2
+  },
+  {
+    "Id": 11,
+    "Name": "Performance Parts",
+    "Parent_Category_Id": 2
+  }
+]

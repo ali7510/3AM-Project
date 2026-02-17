@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ecommerce.Domain.ProductModule
+namespace Ecommerce.Domain.Contracts
 {
-    public enum ProductType
+    public interface IDataInitializer
     {
-        Car = 1,
-        Accessory = 2,
+        public Task InitializeAsync();
     }
 }

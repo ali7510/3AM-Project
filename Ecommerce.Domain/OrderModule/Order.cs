@@ -11,7 +11,6 @@ namespace Ecommerce.Domain.OrderModule
     {
         public OrderStatus Status { get; set; }
         public decimal Total_Price { get; set; }
-        public string Shipping_Address { get; set; } = default!;
         public PaymentStatus Payment_Status { get; set; }
 
         #region Relationships
@@ -21,8 +20,6 @@ namespace Ecommerce.Domain.OrderModule
         public ICollection<OrderItem> Order_Items { get; set; } = new List<OrderItem>();
 
         public Payment Payment { get; set; } = default!;
-
-        public Shipment Shipment { get; set; } = default!;
         #endregion
     }
 }

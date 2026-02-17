@@ -14,6 +14,7 @@ namespace Ecommerce.Persistence.Data.Configurations
         public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.ToTable("Categories");
+            builder.Property(c => c.Id).ValueGeneratedNever();
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Name).IsRequired().HasMaxLength(100);
             builder.Ignore(c => c.Created_At);

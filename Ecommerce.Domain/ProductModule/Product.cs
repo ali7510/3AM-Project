@@ -18,7 +18,6 @@ namespace Ecommerce.Domain.ProductModule
         public string Image_Url { get; set; } = default!;
         public string Brand { get; set; } = default!;
         public string? specsJson { get; set; }
-        public ProductType Product_Type { get; set; }
 
         #region Relationships
         public int Category_Id { get; set; }

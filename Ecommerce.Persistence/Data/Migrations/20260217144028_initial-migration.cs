@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Ecommerce.Persistence.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class initialcreate : Migration
+    public partial class initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,8 +15,7 @@ namespace Ecommerce.Persistence.Data.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Parent_Category_Id = table.Column<int>(type: "int", nullable: true)
                 },
@@ -63,7 +62,6 @@ namespace Ecommerce.Persistence.Data.Migrations
                     Image_Url = table.Column<string>(type: "varchar(500)", nullable: false),
                     Brand = table.Column<string>(type: "varchar(100)", nullable: false),
                     specsJson = table.Column<string>(type: "varchar(max)", nullable: true),
-                    Product_Type = table.Column<int>(type: "int", nullable: false),
                     Category_Id = table.Column<int>(type: "int", nullable: false),
                     Created_At = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -106,7 +104,6 @@ namespace Ecommerce.Persistence.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Total_Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Shipping_Address = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Payment_Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     User_Id = table.Column<int>(type: "int", nullable: false),
                     Added_At = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
@@ -201,30 +198,6 @@ namespace Ecommerce.Persistence.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Shipments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Company = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    TrackingNumber = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Delivered_At = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Order_Id = table.Column<int>(type: "int", nullable: false),
-                    Shipped_At = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Shipments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Shipments_Orders_Order_Id",
-                        column: x => x.Order_Id,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_CartItems_Cart_Id",
                 table: "CartItems",
@@ -271,12 +244,6 @@ namespace Ecommerce.Persistence.Data.Migrations
                 name: "IX_Products_Category_Id",
                 table: "Products",
                 column: "Category_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Shipments_Order_Id",
-                table: "Shipments",
-                column: "Order_Id",
-                unique: true);
         }
 
         /// <inheritdoc />
@@ -290,9 +257,6 @@ namespace Ecommerce.Persistence.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Payments");
-
-            migrationBuilder.DropTable(
-                name: "Shipments");
 
             migrationBuilder.DropTable(
                 name: "Carts");

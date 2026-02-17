@@ -95,11 +95,6 @@ namespace Ecommerce.Persistence.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Shipping_Address")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -180,56 +175,10 @@ namespace Ecommerce.Persistence.Data.Migrations
                     b.ToTable("Payments", (string)null);
                 });
 
-            modelBuilder.Entity("Ecommerce.Domain.OrderModule.Shipment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Company")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("Created_At")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasColumnName("Shipped_At")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<DateTime>("Delivered_At")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Order_Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("TrackingNumber")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Order_Id")
-                        .IsUnique();
-
-                    b.ToTable("Shipments", (string)null);
-                });
-
             modelBuilder.Entity("Ecommerce.Domain.ProductModule.Category", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -280,9 +229,6 @@ namespace Ecommerce.Persistence.Data.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Product_Type")
-                        .HasColumnType("int");
 
                     b.Property<int>("Stock_Quantity")
                         .HasColumnType("int");
@@ -417,17 +363,6 @@ namespace Ecommerce.Persistence.Data.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("Ecommerce.Domain.OrderModule.Shipment", b =>
-                {
-                    b.HasOne("Ecommerce.Domain.OrderModule.Order", "Order")
-                        .WithOne("Shipment")
-                        .HasForeignKey("Ecommerce.Domain.OrderModule.Shipment", "Order_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("Ecommerce.Domain.ProductModule.Category", b =>
                 {
                     b.HasOne("Ecommerce.Domain.ProductModule.Category", "Parent_Category")
@@ -459,9 +394,6 @@ namespace Ecommerce.Persistence.Data.Migrations
                     b.Navigation("Order_Items");
 
                     b.Navigation("Payment")
-                        .IsRequired();
-
-                    b.Navigation("Shipment")
                         .IsRequired();
                 });
 

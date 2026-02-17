@@ -43,5 +43,27 @@ namespace Ecommerce.Presentation.Controllers
             var categories = await _productService.GetAllCategoriesAsync();
             return Ok(categories);
         }
+
+        [HttpGet("category/{categoryId}")]
+        // Get: BaseURL/api/products/category/categoryId
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsByCategory(int categoryId)
+        {
+            var products = await _productService.GetProductsByCategoryAsync(categoryId);
+            return Ok(products);
+        }
+
+        [HttpGet("vehicles")]
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllVehicles()
+        {
+            var vehicles = await _productService.GetAllVehicles();
+            return Ok(vehicles);
+        }
+
+        [HttpGet("accessories")]
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllAccessories()
+        {
+            var accessories = await _productService.GetAllAccessories();
+            return Ok(accessories);
+        }
     }
 }

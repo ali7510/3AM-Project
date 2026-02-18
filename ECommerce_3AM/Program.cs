@@ -5,8 +5,10 @@ using Ecommerce.Persistence.Data.DataSeed;
 using Ecommerce.Persistence.Data.DBcontexts;
 using Ecommerce.Persistence.IdentityUser.DBcontext;
 using Ecommerce.Persistence.Repository;
+using Ecommerce.Service;
 using Ecommerce.Service.MappingProfiles;
 using Ecommerce.Service.ProductServices;
+using Ecommerce.ServiceAbstraction;
 using Ecommerce.ServiceAbstraction.IProductServices;
 using ECommerce_3AM.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +32,10 @@ namespace ECommerce_3AM
             builder.Services.AddScoped<IDataInitializer, DataInitializer>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddAutoMapper(x=>x.AddProfile<ProductProfile>());
+            builder.Services.AddAutoMapper(x=>x.AddProfile<CartProfile>());
             builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
 
             var app = builder.Build();
 

@@ -42,6 +42,12 @@ namespace Ecommerce.Persistence.Repository
             return await query.ToListAsync();
         }
 
+        public Task<TEntity?> GetByAttribute(Expression<Func<TEntity, bool>> condition = default!)
+        {
+            var query = _dbContext.Set<TEntity>().Where(condition);
+            return query.FirstOrDefaultAsync();
+        }
+
         public async Task<TEntity?> GetByIdAsync(int id, params Expression<Func<TEntity, object>>[] includes)
         {
             IQueryable<TEntity> query = _dbContext.Set<TEntity>();

@@ -23,7 +23,7 @@ namespace Ecommerce.Persistence.Repository
             var type = typeof(TEntity);
             if(_repositories.TryGetValue(type, out object? repository))
             {
-                return (IGenericRepository<TEntity>)_repositories!;
+                return (IGenericRepository<TEntity>)repository!;
             }
             var newRepository = new GenericRepository<TEntity>(_dbContext);
             _repositories.Add(type, newRepository);

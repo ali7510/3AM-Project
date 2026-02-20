@@ -6,12 +6,17 @@ using Ecommerce.Persistence.Data.DBcontexts;
 using Ecommerce.Persistence.IdentityUser.DBcontext;
 using Ecommerce.Persistence.Repository;
 using Ecommerce.Service;
+using Ecommerce.Service.AuthServices;
 using Ecommerce.Service.MappingProfiles;
 using Ecommerce.Service.ProductServices;
 using Ecommerce.ServiceAbstraction;
+using Ecommerce.ServiceAbstraction.AuthServices;
+using Ecommerce.ServiceAbstraction.IAuthServices;
 using Ecommerce.ServiceAbstraction.IProductServices;
 using ECommerce_3AM.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace ECommerce_3AM
 {
@@ -33,9 +38,26 @@ namespace ECommerce_3AM
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddAutoMapper(x=>x.AddProfile<ProductProfile>());
             builder.Services.AddAutoMapper(x=>x.AddProfile<CartProfile>());
+            builder.Services.AddAutoMapper(x=>x.AddProfile<AuthProfile>());
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])
+                        )
+                    };
+                });
 
             var app = builder.Build();
 

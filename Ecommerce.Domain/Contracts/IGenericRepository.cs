@@ -11,6 +11,7 @@ namespace Ecommerce.Domain.Contracts
     {
         Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? condition = default, params Expression<Func<TEntity,object>>[] includes);
         Task<TEntity?> GetByIdAsync(int id, params Expression<Func<TEntity, object>>[] includes);
+        Task<TEntity?> GetByAttribute(Expression<Func<TEntity, bool>> condition = default!);
         Task AddAsync(TEntity entity);
         void Update(TEntity entity);
         void Remove(TEntity entity);

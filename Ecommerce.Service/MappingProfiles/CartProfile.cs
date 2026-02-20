@@ -19,6 +19,7 @@ namespace Ecommerce.Service.MappingProfiles
                 .ForMember(dest => dest.CartItems, opt => opt.MapFrom(src => src.CartItems.ToList()));
 
             CreateMap<CartItem, CartItemDTO>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Product_Name, opt => opt.MapFrom(src => src.Product.Name))
                 .ForMember(dest => dest.Product_Price, opt => opt.MapFrom(src => src.Product.Price));
 

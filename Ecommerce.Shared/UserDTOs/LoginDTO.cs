@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ecommerce.Domain.UserModule
+namespace Ecommerce.Shared.UserDTOs
 {
-    public enum UserRoles
+    public class LoginDTO
     {
-        Admin = 1,
-        Customer = 2
+        public string Email { get; set; } = string.Empty;
     }
 }

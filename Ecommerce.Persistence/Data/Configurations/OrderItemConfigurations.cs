@@ -19,7 +19,7 @@ namespace Ecommerce.Persistence.Data.Configurations
             builder.Property(oi => oi.Quantity).IsRequired();
             builder.Property(oi=>oi.Price_At_Purchase).HasPrecision(18,2).IsRequired();
             builder.HasOne(oi => oi.Order)
-                        .WithMany(o => o.Order_Items)
+                        .WithMany(o => o.OrderItems)
                         .HasForeignKey(oi => oi.Order_Id)
                         .OnDelete(DeleteBehavior.Cascade);
 

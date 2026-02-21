@@ -9,8 +9,6 @@ namespace Ecommerce.Domain.OrderModule
     public enum PaymentStatus
     {
         Pending = 1,
-        Paid = 2,
-        Failed = 3,
-        Refunded = 4
+        Paid = 2
     }
 }

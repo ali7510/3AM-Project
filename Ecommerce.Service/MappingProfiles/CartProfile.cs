@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Ecommerce.Domain.CartModule;
+using Ecommerce.Domain.OrderModule;
 using Ecommerce.Shared.CartDTOs;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Ecommerce.Service.MappingProfiles
             CreateMap<CartItem, CartItemDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Product_Name, opt => opt.MapFrom(src => src.Product.Name))
-                .ForMember(dest => dest.Product_Price, opt => opt.MapFrom(src => src.Product.Price));
+                .ForMember(dest => dest.Product_Price, opt => opt.MapFrom(src => src.Product.Price)).ReverseMap();
 
             CreateMap<AddCartItemDTO, CartItem>();
 

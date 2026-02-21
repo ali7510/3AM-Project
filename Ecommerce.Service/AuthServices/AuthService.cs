@@ -28,6 +28,17 @@ namespace Ecommerce.Service.AuthServices
             _tokenService = tokenService;
         }
 
+        public async Task DeleteUser(int userId)
+        {
+            var user = await _unitOfWork.GetRepository<User>().GetByIdAsync(userId);
+            if (user == null)
+            {
+                throw new InvalidOperationException("User not found");
+            }
+            user.isActive = false;
+            await _unitOfWork.SaveChanges();
+        }
+
         public async Task<string> LoginAsync(LoginDTO dto)
         {
             var user = await _unitOfWork

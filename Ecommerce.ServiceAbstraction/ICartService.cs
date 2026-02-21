@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Shared.CartDTOs;
+using Ecommerce.Shared.OrderDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace Ecommerce.ServiceAbstraction
         public Task RemoveItemFromCart(int userId, int cartItemId);
 
         public Task ClearCart(int userId);
+
+        public Task<OrderDTO> CheckOut(int userId);
 
 
     }

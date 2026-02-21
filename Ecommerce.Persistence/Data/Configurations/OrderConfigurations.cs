@@ -27,7 +27,7 @@ namespace Ecommerce.Persistence.Data.Configurations
                     .OnDelete(DeleteBehavior.Cascade);
 
 
-            builder.HasMany(o => o.Order_Items)
+            builder.HasMany(o => o.OrderItems)
                     .WithOne(oi => oi.Order)
                     .HasForeignKey(oi => oi.Order_Id)
                     .OnDelete(DeleteBehavior.Cascade);

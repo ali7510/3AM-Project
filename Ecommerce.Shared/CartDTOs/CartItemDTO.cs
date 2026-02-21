@@ -9,6 +9,7 @@ namespace Ecommerce.Shared.CartDTOs
     public class CartItemDTO
     {
         public int Id { get; set; }
+        public int Product_Id { get; set; }
         public string? Product_Name { get; set; }
         public decimal Product_Price { get; set; }
         public int Quantity { get; set; }

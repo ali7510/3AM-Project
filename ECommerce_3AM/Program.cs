@@ -31,7 +31,35 @@ namespace ECommerce_3AM
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            //builder.Services.AddSwaggerGen();
+            // ========================================================================
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+                    Description = "Enter: Bearer {your token}"
+                });
+
+                options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+                    {
+                        {
+                            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                            {
+                                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                                {
+                                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+                        }
+                    });
+                            });
             builder.Services.AddDbContext<StoreDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddDbContext<StoreIdentityDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection")));
             builder.Services.AddScoped<IDataInitializer, DataInitializer>();
@@ -39,11 +67,13 @@ namespace ECommerce_3AM
             builder.Services.AddAutoMapper(x=>x.AddProfile<ProductProfile>());
             builder.Services.AddAutoMapper(x=>x.AddProfile<CartProfile>());
             builder.Services.AddAutoMapper(x=>x.AddProfile<AuthProfile>());
+            builder.Services.AddAutoMapper(x=>x.AddProfile<OrderProfile>());
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
@@ -61,6 +91,9 @@ namespace ECommerce_3AM
 
             var app = builder.Build();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             #region DataSeed
             await app.MigrateDatabaseAsync();
             await app.SeedDataAsync();
@@ -74,9 +107,6 @@ namespace ECommerce_3AM
             }
 
             app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
 
             app.MapControllers();
 

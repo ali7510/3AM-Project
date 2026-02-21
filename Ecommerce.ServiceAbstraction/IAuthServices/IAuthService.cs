@@ -12,5 +12,6 @@ namespace Ecommerce.ServiceAbstraction.AuthServices
     {
         public Task<string> RegisterAsync(RegisterDTO dto);
         public Task<string> LoginAsync(LoginDTO dto);
+        public Task DeleteUser(int userId);
     }
 }

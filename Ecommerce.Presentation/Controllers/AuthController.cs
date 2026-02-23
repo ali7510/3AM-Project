@@ -61,14 +61,5 @@ namespace Ecommerce.Presentation.Controllers
             await _authService.RevokeRefreshTokenAsync(userId);
             return Ok("Logged out successfully.");
         }
-
-        [HttpDelete("delete")]
-        [Authorize]
-        public async Task<ActionResult> DeleteUser()
-        {
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-            await _authService.DeleteUser(userId);
-            return Ok("User deleted successfully.");
-        }
     }
 }

@@ -24,10 +24,6 @@ namespace Ecommerce.Service
             _mapper = mapper;
         }
 
-        public Task ConfirmOrder(int userId)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<OrderDTO> ViewCurrentOrder(int userId)
         {

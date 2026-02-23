@@ -29,7 +29,7 @@ namespace Ecommerce.Service.MappingProfiles
                 .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.CartItems))
                 // Convert strings to Enums (Case-insensitive)
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => Enum.Parse<OrderStatus>(src.Status, true)))
-                .ForMember(dest => dest.Payment_Status, opt => opt.MapFrom(src => Enum.Parse<PaymentStatus>(src.Payment_Status, true)));
+                .ForMember(dest => dest.Payment_Status, opt => opt.MapFrom(src => Enum.Parse<PaymentStatus>(src.Payment_Status, true))).ReverseMap();
 
             // 2. Map CartItemDTO to OrderItem
             CreateMap<CartItemDTO, OrderItem>()

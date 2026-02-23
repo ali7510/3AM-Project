@@ -10,12 +10,14 @@ using Ecommerce.Service.DashboardServices;
 using Ecommerce.Service.MappingProfiles;
 using Ecommerce.Service.PaymentServices;
 using Ecommerce.Service.ProductServices;
+using Ecommerce.Service.ProfileServices;
 using Ecommerce.ServiceAbstraction;
 using Ecommerce.ServiceAbstraction.AuthServices;
 using Ecommerce.ServiceAbstraction.IAuthServices;
 using Ecommerce.ServiceAbstraction.IDashboardServices;
 using Ecommerce.ServiceAbstraction.IPaymentServices;
 using Ecommerce.ServiceAbstraction.IProductServices;
+using Ecommerce.ServiceAbstraction.IProfileServices;
 using ECommerce_3AM.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -71,6 +73,7 @@ namespace ECommerce_3AM
             builder.Services.AddAutoMapper(x=>x.AddProfile<CartProfile>());
             builder.Services.AddAutoMapper(x=>x.AddProfile<AuthProfile>());
             builder.Services.AddAutoMapper(x=>x.AddProfile<OrderProfile>());
+            builder.Services.AddAutoMapper(x=>x.AddProfile<AccountProfile>());
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
@@ -80,6 +83,7 @@ namespace ECommerce_3AM
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IDashboardService, DashboardService>();
+            builder.Services.AddScoped<IProfileService, ProfileService>();
             builder.Services.Configure<MyFatoorahSettings>(
                 builder.Configuration.GetSection("MyFatoorah"));
             builder.Services.AddAuthentication("Bearer")

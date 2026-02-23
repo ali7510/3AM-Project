@@ -12,6 +12,5 @@ namespace Ecommerce.ServiceAbstraction
     public interface IOrderService
     {
         public Task<OrderDTO> ViewCurrentOrder(int userId);
-        public Task ConfirmOrder(int userId);
     }
 }

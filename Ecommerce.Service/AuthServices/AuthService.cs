@@ -200,25 +200,5 @@ namespace Ecommerce.Service.AuthServices
             }
 
         }
-
-        public async Task DeleteUser(int userId)
-        {
-            try
-            {
-                var user = await _unitOfWork.GetRepository<User>().GetByIdAsync(userId);
-
-                if (user == null)
-                    throw new InvalidOperationException("User not found");
-
-                user.isActive = false;
-                _unitOfWork.GetRepository<User>().Update(user);
-                await _unitOfWork.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error deleting user: {ex.Message}");
-            }
-
-        }
     }
 }

@@ -15,6 +15,5 @@ namespace Ecommerce.ServiceAbstraction.AuthServices
         Task<AuthResponseDTO> VerifyOtpAsync(VerifyOtpDTO dto);
         Task<AuthResponseDTO> RefreshTokenAsync(RefreshTokenDTO dto);
         Task RevokeRefreshTokenAsync(int userId);
-        Task DeleteUser(int userId);
     }
 }

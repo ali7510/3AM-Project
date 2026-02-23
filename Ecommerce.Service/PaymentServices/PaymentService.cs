@@ -64,6 +64,9 @@ namespace Ecommerce.Service.PaymentServices
             if (user == null)
                 throw new Exception("User not found.");
 
+            if (user.isActive == false)
+                throw new Exception("User is inactive.");
+
             // Step D: Create Order
             var order = new Order
             {

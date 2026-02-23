@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Ecommerce.Persistence.Migrations
+namespace Ecommerce.Persistence.Data.Migrations
 {
     /// <inheritdoc />
     public partial class initialmigration : Migration
@@ -40,7 +40,11 @@ namespace Ecommerce.Persistence.Migrations
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Phone = table.Column<string>(type: "varchar(13)", maxLength: 13, nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
-                    isAdmin = table.Column<bool>(type: "bit", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    OtpCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OtpExpiry = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshTokenExpiry = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Joined_At = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
                 },
                 constraints: table =>
@@ -183,6 +187,8 @@ namespace Ecommerce.Persistence.Migrations
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Method = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
+                    ExternalPaymentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PaymentURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Order_Id = table.Column<int>(type: "int", nullable: false),
                     Paid_At = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

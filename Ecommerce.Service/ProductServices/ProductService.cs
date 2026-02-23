@@ -34,7 +34,6 @@ namespace Ecommerce.Service.ProductServices
         {
             var Categories = await _unitOfWork.GetRepository<Category>().GetAllAsync();
             return _mapper.Map<IEnumerable<CategoryDTO>>(Categories);
-
         }
 
         public async Task<IEnumerable<ProductDTO>> GetAllProductsAsync()
@@ -61,7 +60,5 @@ namespace Ecommerce.Service.ProductServices
             var products = await _unitOfWork.GetRepository<Product>().GetAllAsync(p=>p.Category_Id == categoryId, p=>p.Category);
             return _mapper.Map<IEnumerable<ProductDTO>>(products);
         }
-
-        
     }
 }

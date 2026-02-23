@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Domain.CartModule;
+using Ecommerce.Domain.UserModule;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

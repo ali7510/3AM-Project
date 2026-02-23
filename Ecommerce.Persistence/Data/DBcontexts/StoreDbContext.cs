@@ -2,6 +2,7 @@
 using Ecommerce.Domain.OrderModule;
 using Ecommerce.Domain.ProductModule;
 using Ecommerce.Domain.UserModule;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,6 @@ namespace Ecommerce.Persistence.Data.DBcontexts
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
-        public DbSet<Category> Categories {get; set;}
+        public DbSet<Category> Categories { get; set; }
     }
 }

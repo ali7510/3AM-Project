@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ecommerce.Domain.OrderModule
+namespace Ecommerce.Shared.UserDTOs
 {
-    public enum PaymentStatus
+    public class RequestOtpDTO
     {
-        Pending = 1,
-        Paid = 2,
-        Failed = 3
+        public string Email { get; set; } = string.Empty;
     }
 }

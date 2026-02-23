@@ -20,7 +20,7 @@ namespace Ecommerce.Service.MappingProfiles
                 .ForMember(dest => dest.CartItems, opt => opt.MapFrom(src => src.CartItems))
                 .ForMember(dest => dest.Total_Price, opt => opt.MapFrom(src => src.CartItems.Sum(item => item.Quantity * item.Product.Price)))
                 .ForMember(dest => dest.User_Name, opt => opt.MapFrom(src => src.User.Name))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => OrderStatus.Pending))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => OrderStatus.PendingPayment))
                 .ForMember(dest => dest.Payment_Status, opt => opt.MapFrom(src => PaymentStatus.Pending))
                 .ForMember(dest => dest.User_Id, opt=>opt.MapFrom(src=>src.User_Id));
 

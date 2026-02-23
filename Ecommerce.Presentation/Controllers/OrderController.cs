@@ -25,6 +25,7 @@ namespace Ecommerce.Presentation.Controllers
 
         [HttpGet("vieworder")]
         // Get: BaseURL/api/order/userId
+        [Authorize(Roles = "Customer")]
         public async Task<ActionResult<OrderDTO>> ViewCurrentOrder()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

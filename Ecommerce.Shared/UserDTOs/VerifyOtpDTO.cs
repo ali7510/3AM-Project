@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Shared.UserDTOs
 {
-    public class LoginDTO
+    public class VerifyOtpDTO
     {
         public string Email { get; set; } = string.Empty;
+        public string OtpCode { get; set; } = string.Empty;
     }
 }

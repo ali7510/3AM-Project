@@ -20,6 +20,7 @@ namespace Ecommerce.Persistence.Data.Configurations
             builder.Property(u=>u.Phone).HasColumnType("varchar").HasMaxLength(13);
             builder.Property(u => u.isActive).HasDefaultValue(true);
             builder.Property(u=>u.Created_At).HasColumnName("Joined_At").HasDefaultValueSql("GETDATE()");
+            builder.Property(builder => builder.Role).HasConversion<string>().HasMaxLength(20).IsRequired();
         }
     }
 }

@@ -6,11 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Ecommerce.ServiceAbstraction.IProductServices;
 using Ecommerce.Shared.ProductDTOs;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Ecommerce.Presentation.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;

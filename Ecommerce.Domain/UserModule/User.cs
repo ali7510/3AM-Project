@@ -14,12 +14,17 @@ namespace Ecommerce.Domain.UserModule
         public string Email { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
         public bool isActive { get; set; } = true;
-        public bool isAdmin { get; set; }
+        public UserRoles Role { get; set; } = UserRoles.Customer;
 
         #region Relationships
         public ICollection<Order> Orders { get; set; } = new List<Order>();
 
         public Cart Cart { get; set; } = default!;
+
+        public string? OtpCode { get; set; }
+        public DateTime? OtpExpiry { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiry { get; set; }
         #endregion
     }
 }

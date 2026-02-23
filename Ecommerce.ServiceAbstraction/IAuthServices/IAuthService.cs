@@ -1,4 +1,4 @@
-﻿using Ecommerce.Domain.UserModule;
+﻿
 using Ecommerce.Shared.UserDTOs;
 using System;
 using System.Collections.Generic;
@@ -10,8 +10,11 @@ namespace Ecommerce.ServiceAbstraction.AuthServices
 {
     public interface IAuthService
     {
-        public Task<string> RegisterAsync(RegisterDTO dto);
-        public Task<string> LoginAsync(LoginDTO dto);
-        public Task DeleteUser(int userId);
+        Task<string> RegisterAsync(RegisterDTO dto);
+        Task RequestOtpAsync(RequestOtpDTO dto);
+        Task<AuthResponseDTO> VerifyOtpAsync(VerifyOtpDTO dto);
+        Task<AuthResponseDTO> RefreshTokenAsync(RefreshTokenDTO dto);
+        Task RevokeRefreshTokenAsync(int userId);
+        Task DeleteUser(int userId);
     }
 }

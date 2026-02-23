@@ -8,11 +8,9 @@ namespace Ecommerce.Domain.OrderModule
 {
     public enum OrderStatus
     {
-        Pending = 1,
-        Confirmed = 2,
-        Processing = 3,
-        Shipped = 4,
-        Delivered = 5,
-        Cancelled = 6
+        PendingPayment = 1,
+        Processing = 2,
+        Shipped = 3,
+        Cancelled = 4
     }
 }

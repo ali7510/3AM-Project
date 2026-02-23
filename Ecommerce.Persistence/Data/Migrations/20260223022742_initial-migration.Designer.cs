@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Ecommerce.Persistence.Migrations
+namespace Ecommerce.Persistence.Data.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20260220012018_initial-migration")]
+    [Migration("20260223022742_initial-migration")]
     partial class initialmigration
     {
         /// <inheritdoc />
@@ -161,11 +161,17 @@ namespace Ecommerce.Persistence.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("Paid_At");
 
+                    b.Property<string>("ExternalPaymentId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Method")
                         .HasColumnType("int");
 
                     b.Property<int>("Order_Id")
                         .HasColumnType("int");
+
+                    b.Property<string>("PaymentURL")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -269,18 +275,32 @@ namespace Ecommerce.Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("OtpCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("OtpExpiry")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(13)
                         .HasColumnType("varchar");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RefreshTokenExpiry")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.Property<bool>("isActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
-
-                    b.Property<bool>("isAdmin")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -334,7 +354,7 @@ namespace Ecommerce.Persistence.Migrations
             modelBuilder.Entity("Ecommerce.Domain.OrderModule.OrderItem", b =>
                 {
                     b.HasOne("Ecommerce.Domain.OrderModule.Order", "Order")
-                        .WithMany("Order_Items")
+                        .WithMany("OrderItems")
                         .HasForeignKey("Order_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -389,7 +409,7 @@ namespace Ecommerce.Persistence.Migrations
 
             modelBuilder.Entity("Ecommerce.Domain.OrderModule.Order", b =>
                 {
-                    b.Navigation("Order_Items");
+                    b.Navigation("OrderItems");
 
                     b.Navigation("Payment")
                         .IsRequired();

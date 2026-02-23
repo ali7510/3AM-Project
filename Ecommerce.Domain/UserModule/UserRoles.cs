@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ecommerce.Domain.OrderModule
+namespace Ecommerce.Domain.UserModule
 {
-    public enum PaymentStatus
+    public enum UserRoles
     {
-        Pending = 1,
-        Paid = 2,
-        Failed = 3
+        Admin = 1,
+        Customer = 2
     }
 }

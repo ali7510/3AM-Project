@@ -12,6 +12,8 @@ namespace Ecommerce.Domain.OrderModule
         public PaymentMethod Method { get; set; }
         public PaymentStatus Status { get; set; }
 
+        public string? ExternalPaymentId { get; set; } // For third-party payment gateways (INVOICE ID)
+        public string? PaymentURL { get; set; } // For redirecting to payment gateway (if applicable)
         #region Relationships
         public int Order_Id { get; set; }
         public Order Order { get; set; } = default!;

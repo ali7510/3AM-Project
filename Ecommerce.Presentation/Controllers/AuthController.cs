@@ -19,61 +19,56 @@ namespace Ecommerce.Presentation.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public AuthController(IAuthService authService, IUnitOfWork unitOfWork)
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
-            _unitOfWork = unitOfWork;
         }
 
         [HttpPost("register")]
-        // Post: BaseURL/api/auth/register
         public async Task<ActionResult> Register([FromBody] RegisterDTO dto)
         {
-            await _authService.RegisterAsync(dto);
-            return Ok("User Registered Seccessfully!");
+            var message = await _authService.RegisterAsync(dto);
+            return Ok(message);
         }
 
-
-
-        [HttpPost("login")]
-        // Post: BaseURL/api/auth/login
-        public async Task<ActionResult> Login([FromBody] LoginDTO dto)
+        [HttpPost("request-otp")]
+        public async Task<ActionResult> RequestOtp([FromBody] RequestOtpDTO dto)
         {
-            var token = await _authService.LoginAsync(dto);
-            return Ok(new { token });
+            await _authService.RequestOtpAsync(dto);
+            return Ok("OTP sent to your email.");
         }
-        //public async Task<ActionResult> Login([FromBody] LoginDTO dto)
-        //{
-        //    try
-        //    {
-        //        var token = await _authService.LoginAsync(dto);
-        //        return Ok(new { token });
-        //    }
-        //    catch (UnauthorizedAccessException ex)
-        //    {
-        //        return Unauthorized(ex.Message);
-        //    }
-        //}
+
+        [HttpPost("verify-otp")]
+        public async Task<ActionResult<AuthResponseDTO>> VerifyOtp([FromBody] VerifyOtpDTO dto)
+        {
+            var result = await _authService.VerifyOtpAsync(dto);
+            return Ok(result);
+        }
+
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<AuthResponseDTO>> RefreshToken([FromBody] RefreshTokenDTO dto)
+        {
+            var result = await _authService.RefreshTokenAsync(dto);
+            return Ok(result);
+        }
+
+        [HttpPost("logout")]
+        [Authorize]
+        public async Task<ActionResult> Logout()
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            await _authService.RevokeRefreshTokenAsync(userId);
+            return Ok("Logged out successfully.");
+        }
 
         [HttpDelete("delete")]
-        // Delete: BaseURL/api/auth/delete/1
+        [Authorize]
         public async Task<ActionResult> DeleteUser()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            bool isParsed = int.TryParse(userId, out int id);
-            var user = await _unitOfWork.GetRepository<User>().GetByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
-            if (user.isActive == false)
-            {
-                return BadRequest("User is already inactive");
-            }
-            await _authService.DeleteUser(id);
-            return Ok("User Deleted Seccessfully!");
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+            await _authService.DeleteUser(userId);
+            return Ok("User deleted successfully.");
         }
     }
 }

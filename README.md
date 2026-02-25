@@ -1,26 +1,33 @@
 # 3AM-Project
 3AM E-commerce .NET project
 
+
+
 🙂Users are either Admins or Customers
+
+
 
 🔒 Authentication endpoints
 1- POST| /api/Auth/register
   💥Register a new user in the system.
   💥Rquest body ..
-  {
-  "name": "Ali Mustafa",
-  "email": "ali@email.com", valid/unique
-  "phone": "01012345678"    valid/unique
-  }
+    {
+      "name": "string",
+      "email": "string",
+      "phone": "string"
+    }
   💥Returns status codes.
+
 
 2- POST| /api/Auth/request-otp
   💥Start of the login process, user enters his registered email and receive otp on it.
   💥Returns status codes
 
+
 3- POST| api/Auth/verify-otp
   💥User enters his email and the received otp to verify
   💥Returns access token, refresh token, refresh Token Expiry date time
+  
 
 4- POST| /api/Auth/refresh-token
   💥Request body ..
@@ -29,10 +36,12 @@
   }
   receive the refresh token returned in the response of "verify-otp" endpoint.
   💥returns the same response as "verify-otp" but with different values.
+  
 
 5- POST| /api/Auth/logout
   💥Delete tokens from storage, Front-end must prevent user from doing furthur actions.
   💥 Returns status code
+
 
 
 👨‍💼 Account endpoints
@@ -64,10 +73,12 @@
     }
 
   💥Returns status code
+  
 
 2- DELETE| /api/Account/delete
   💥Returns status code
   💥switch the user account to inactive permanently
+
 
 
 🛒Cart endpoints
@@ -89,6 +100,7 @@
         }
       ]
     }
+    
 
 2- POST| /api/Cart/items
   💥Adding a new item to the cart
@@ -98,12 +110,15 @@
       "quantity": 0
     }
   💥Returns status code
+  
       
 3- DELETE| /api/Cart/items/{cartItemId}
   💥Removes item from User's cart, using the cartItem id
+  
 
 4- DELETE| /api/Cart/items/clear
   💥Clear all items in the cart
+  
 
 5- GET| /api/Cart/checkout
   💥Views the current cart items details as a single order
@@ -126,6 +141,8 @@
       ]
     }
 
+    
+
 📊 Dashboard endpoint
 🔷Only admin users who can access this endpoint and get the response
 1- GET| /api/Dashboard
@@ -137,6 +154,7 @@
     5- PendingOrders
     6- ProcessedOrders
     7- CancelledOrders
+
 
 
 📦 Order endpoint
@@ -160,6 +178,7 @@
       ]
     }
     🎆The same response as checkout endpoint !
+    
 
 
 💰Payment endpoint
@@ -195,6 +214,7 @@
           "categoryName": "string"
         }
       ]
+      
 
   2- GET| /api/Product/{id}
     💥 view details for specific product by id
@@ -210,6 +230,7 @@
         "specsJson": "string",
         "categoryName": "string"
       }
+      
 
   3- GET| /api/Product/categories
     💥 view all categories in the system
@@ -221,6 +242,7 @@
           "parent_Category_Id": 0
         }
       ]
+      
 
   4- GET| /api/Product/category/{categoryId}
     💥views all products that belong to specific category, we pass the category id to get those products
@@ -242,6 +264,7 @@
     🔷 Cars has Id = 1, Accessories = 2 those are the main categories so thry have subcategories that has many products belong to it
 
 
+
   5- GET| /api/Product/vehicles
     💥 Views all products that are vehicles (belong to Cars category)
     💥 Response body ..
@@ -258,6 +281,7 @@
           "categoryName": "string"
         }
       ]
+      
 
 
   6- GET| /api/Product/accessories

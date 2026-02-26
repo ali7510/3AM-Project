@@ -3,6 +3,7 @@ using Ecommerce.Domain.CartModule;
 using Ecommerce.Domain.Contracts;
 using Ecommerce.Domain.OrderModule;
 using Ecommerce.Domain.UserModule;
+using Ecommerce.ServiceAbstraction;
 using Ecommerce.ServiceAbstraction.IPaymentServices;
 using Ecommerce.Shared.OrderDTOs;
 using Ecommerce.Shared.PaymentDTOs;
@@ -20,15 +21,18 @@ namespace Ecommerce.Service.PaymentServices
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICartService _cartService;
         private readonly MyFatoorahSettings _settings;
 
         public PaymentService(
             IHttpClientFactory httpClientFactory,
             IUnitOfWork unitOfWork,
-            IOptions<MyFatoorahSettings> settings)
+            IOptions<MyFatoorahSettings> settings,
+            ICartService cartService)
         {
             _httpClientFactory = httpClientFactory;
             _unitOfWork = unitOfWork;
+            _cartService = cartService;
             _settings = settings.Value;
         }
 
@@ -113,8 +117,8 @@ namespace Ecommerce.Service.PaymentServices
 
             if (!response.IsSuccessStatusCode)
             {
-                // Don't save anything — invoice creation failed
-                throw new Exception("Failed to create MyFatoorah invoice.");
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new Exception($"MyFatoorah error: {response.StatusCode} - {errorContent}");
             }
 
             var responseContent = await response.Content.ReadFromJsonAsync<MyFatoorahSendPaymentResponse>();
@@ -135,6 +139,8 @@ namespace Ecommerce.Service.PaymentServices
                 cartItemRepo.Remove(item);
 
             await _unitOfWork.SaveChanges();
+
+            await _cartService.ClearCart(userId);
 
             return new PaymentResponseDTO
             {
@@ -163,6 +169,11 @@ namespace Ecommerce.Service.PaymentServices
 
             // Step B: Verify with MyFatoorah
             var client = _httpClientFactory.CreateClient("MyFatoorah");
+
+            Console.WriteLine($"TOKEN BEING SENT: {_settings.ApiKey}");
+
+            Console.WriteLine($"BaseAddress: {client.BaseAddress}");
+            Console.WriteLine($"Auth: {client.DefaultRequestHeaders.Authorization}");
 
             var verifyRequest = new
             {

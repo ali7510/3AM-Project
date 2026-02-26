@@ -1,6 +1,9 @@
 ﻿using Ecommerce.Domain;
+using Ecommerce.Domain.CartModule;
 using Ecommerce.Domain.Contracts;
+using Ecommerce.Domain.OrderModule;
 using Ecommerce.Domain.ProductModule;
+using Ecommerce.Domain.UserModule;
 using Ecommerce.Persistence.Data.DBcontexts;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -29,10 +32,14 @@ namespace Ecommerce.Persistence.Data.DataSeed
 
                 var hasProducts = await _dbContext.Products.AnyAsync();
                 var hasCategories = await _dbContext.Categories.AnyAsync();
+                var hasUsers = await _dbContext.Users.AnyAsync();
+                var hasOrders = await _dbContext.Orders.AnyAsync();
+                var hasOrderItems = await _dbContext.OrderItems.AnyAsync();
+                var hasCarts = await _dbContext.Carts.AnyAsync();
+                var hasCartItems = await _dbContext.CartItems.AnyAsync();
+                var hasPayments = await _dbContext.Payments.AnyAsync();
 
                 Console.WriteLine($"Has Products: {hasProducts}, Has Categories: {hasCategories}");
-
-                if (hasCategories && hasProducts) return;
 
                 if (!hasCategories)
                 {
@@ -45,6 +52,41 @@ namespace Ecommerce.Persistence.Data.DataSeed
                     Console.WriteLine("Seeding products...");
                     await SeedDataFromJson<Product>("Products.json", _dbContext.Products);
                 }
+
+                if (!hasUsers)
+                {
+                    Console.WriteLine("Seeding users...");
+                    await SeedDataFromJson<User>("Users.json", _dbContext.Users);
+                }
+                if (!hasOrders)
+                {
+                    Console.WriteLine("Seeding orders...");
+                    await SeedDataFromJson<Order>("Orders.json", _dbContext.Orders);
+                }
+
+                if (!hasCarts)
+                {
+                    Console.WriteLine("Seeding carts...");
+                    await SeedDataFromJson<Cart>("Carts.json", _dbContext.Carts);
+                }
+                if (!hasCartItems)
+                {
+                    Console.WriteLine("Seeding cart items...");
+                    await SeedDataFromJson<CartItem>("CartItems.json", _dbContext.CartItems);
+                }
+
+                if (!hasOrderItems)
+                {
+                    Console.WriteLine("Seeding order items...");
+                    await SeedDataFromJson<OrderItem>("OrderItems.json", _dbContext.OrderItems);
+                }
+
+                if (!hasPayments)
+                {
+                    Console.WriteLine("Seeding payments...");
+                    await SeedDataFromJson<Payment>("Payments.json", _dbContext.Payments);
+                }
+
             }
             catch (Exception ex)
             {
@@ -80,12 +122,15 @@ namespace Ecommerce.Persistence.Data.DataSeed
             }
             catch (Exception ex)
             {
-                // Handle exceptions (e.g., log the error)
-                Console.WriteLine($"Error seeding data from {filename}: {ex.Message}");
+                Console.WriteLine("MAIN ERROR: " + ex.Message);
+
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("INNER ERROR: " + ex.InnerException.Message);
+                }
+
                 throw;
             }
-
-
         }
     }
 }

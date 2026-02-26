@@ -198,7 +198,6 @@ namespace Ecommerce.Service.AuthServices
             {
                 throw new Exception($"Error revoking refresh token: {ex.Message}");
             }
-
         }
     }
 }

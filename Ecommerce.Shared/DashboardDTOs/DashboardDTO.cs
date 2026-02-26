@@ -14,6 +14,7 @@ namespace Ecommerce.Shared.DashboardDTOs
         public int totalCustomers { get; set; }
         public int PendingOrders { get; set; }
         public int ProcessedOrders { get; set; }
+        public int ShippedOrders { get; set; }
         public int CancelledOrders { get; set; }
     }
 }

@@ -79,7 +79,18 @@ namespace ECommerce_3AM
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
-            //builder.Services.AddScoped<IPaymentService, PaymentService>();
+            builder.Services.AddHttpClient("MyFatoorah", client =>
+            {
+                var baseUrl = builder.Configuration["MyFatoorah:BaseUrl"]!;
+                var apiKey = builder.Configuration["MyFatoorah:ApiKey"]!;
+
+                Console.WriteLine($"BaseUrl: {baseUrl}");
+                Console.WriteLine($"ApiKey: {apiKey}");
+
+                client.BaseAddress = new Uri(baseUrl);
+                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+            });
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IDashboardService, DashboardService>();

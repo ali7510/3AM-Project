@@ -1,0 +1,142 @@
+[
+    {
+        "Name": "System Admin",
+        "Email": "admin@store.com",
+        "Phone": "01000000001",
+        "isActive": true,
+        "Role": 1
+    },
+    {
+        "Name": "Ali Hassan",
+        "Email": "ali1@mail.com",
+        "Phone": "01000000002",
+        "isActive": true,
+        "Role": 2
+    },
+    {
+        "Name": "Omar Khaled",
+        "Email": "omar@mail.com",
+        "Phone": "01000000003",
+        "isActive": true,
+        "Role": 2
+    },
+    {
+        "Name": "Mahmoud Samy",
+        "Email": "mahmoud@mail.com",
+        "Phone": "01000000004",
+        "isActive": true,
+        "Role": 2
+    },
+    {
+        "Name": "Sara Ahmed",
+        "Email": "sara@mail.com",
+        "Phone": "01000000005",
+        "isActive": true,
+        "Role": 2
+    },
+    {
+        "Name": "Ali Mustafa",
+        "Email": "alimustafa8372@mail.com",
+        "Phone": "01000000011",
+        "isActive": true,
+        "Role": 2
+    },
+    {
+        "Name": "Muhannad",
+        "Email": "noreply@muhannad.cc",
+        "Phone": "01000000006",
+        "isActive": true,
+        "Role": 1
+    },
+    {
+        "Name": "Mohammed",
+        "Email": "mohammed@mail.com",
+        "Phone": "01000000007",
+        "isActive": true,
+        "Role": 1
+    },
+    {
+        "Name": "Yasser",
+        "Email": "yasser@mail.com",
+        "Phone": "01000000008",
+        "isActive": true,
+        "Role": 1
+    },
+    {
+        "Name": "Marwan",
+        "Email": "marwan@mail.com",
+        "Phone": "01000000009",
+        "isActive": true,
+        "Role": 1
+    },
+    {
+        "Name": "Menna",
+        "Email": "menna@mail.com",
+        "Phone": "01000000010",
+        "isActive": true,
+        "Role": 1
+    },
+    {
+        "Name": "Laila Kamel",
+        "Email": "laila@mail.com",
+        "Phone": "01000000012",
+        "isActive": true,
+        "Role": 2
+    },
+    {
+        "Name": "Hassan Zaki",
+        "Email": "hassan@mail.com",
+        "Phone": "01000000013",
+        "isActive": true,
+        "Role": 2
+    },
+    {
+        "Name": "Fatma Ibrahim",
+        "Email": "fatma@mail.com",
+        "Phone": "01000000014",
+        "isActive": true,
+        "Role": 2
+    },
+    {
+        "Name": "Zaid Mansour",
+        "Email": "zaid@mail.com",
+        "Phone": "01000000015",
+        "isActive": true,
+        "Role": 1
+    },
+    {
+        "Name": "Nour El-Din",
+        "Email": "nour@mail.com",
+        "Phone": "01000000016",
+        "isActive": true,
+        "Role": 2
+    },
+    {
+        "Name": "Amira Tarek",
+        "Email": "amira@mail.com",
+        "Phone": "01000000017",
+        "isActive": false,
+        "Role": 2
+    },
+    {
+        "Name": "Youssef Adel",
+        "Email": "youssef@mail.com",
+        "Phone": "01000000018",
+        "isActive": true,
+        "Role": 2
+    },
+    {
+        "Name": "Dina Fouad",
+        "Email": "dina@mail.com",
+        "Phone": "01000000019",
+        "isActive": true,
+        "Role": 2
+    },
+    {
+        "Name": "Khaled Gamal",
+        "Email": "khaled@mail.com",
+        "Phone": "01000000020",
+        "isActive": true,
+        "Role": 2
+    }
+]

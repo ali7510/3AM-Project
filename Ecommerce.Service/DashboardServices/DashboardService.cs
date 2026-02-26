@@ -33,6 +33,7 @@ namespace Ecommerce.Service.DashboardServices
                 decimal REVENUE = orders.Sum(o => o.Total_Price);
                 int PENDING_ORDERS = orders.Count(o => o.Status == OrderStatus.PendingPayment);
                 int PROCESSED_ORDERS = orders.Count(o => o.Status == OrderStatus.Processing);
+                int SHIPPED_ORDERS = orders.Count(o => o.Status == OrderStatus.Shipped);
                 int CANCELLED_ORDERS = orders.Count(o => o.Status == OrderStatus.Cancelled);
                 DashboardDTO dashboard = new DashboardDTO()
                 {
@@ -42,6 +43,7 @@ namespace Ecommerce.Service.DashboardServices
                     totalCustomers = USERS_COUNT,
                     PendingOrders = PENDING_ORDERS,
                     ProcessedOrders = PROCESSED_ORDERS,
+                    ShippedOrders = SHIPPED_ORDERS,
                     CancelledOrders = CANCELLED_ORDERS
                 };
                 return dashboard;

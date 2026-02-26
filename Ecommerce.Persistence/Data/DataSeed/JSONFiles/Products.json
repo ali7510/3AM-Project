@@ -6,7 +6,7 @@
     "Stock_Quantity": 4,
     "Image_Url": "https://www.egy-car.com/bmw-m340i",
     "Brand": "BMW",
-    "specsJson": "{\"color\":\"red\",\"kind\":\"coupe\",\"doors\":2,\"engine\":\"3.0L Turbocharged\",\"horsepower\":382,\"transmission\":\"Automatic\",\"fuelType\":\"Petrol\",\"year\":2023}",
+    "specsJson": "{\"color\":\"red\",\"kind\":\"coupe\",\"doors\":2}",
     "Category_Id": 3
   },
   {
@@ -14,9 +14,9 @@
     "Description": "A plane in the shape of car.",
     "Price": 1000000,
     "Stock_Quantity": 3,
-    "Image_Url": "https://me.motor1.com/news/540084/%D8%B4%D8%A7%D8%A6%D8%B9%D8%A9-%D8%A7%D9%86%D8%AA%D9%87%D8%A7%D8%A1-%D8%A5%D9%86%D8%AA%D8%A7%D8%AC-%D8%A3%D9%8A%D9%87-%D8%A3%D9%85-%D8%AC%D9%8A-%D8%AC%D9%8A-%D8%AA%D9%8A-%D9%81%D9%8A-%D8%AF%D9%8A%D8%B3%D9%85%D8%A8%D8%B1/",
+    "Image_Url": "https://me.motor1.com/news/540084/",
     "Brand": "Mercedes Benz",
-    "specsJson": "{\"color\":\"black\",\"kind\":\"coupe\",\"doors\":2,\"engine\":\"4.0L V8 Biturbo\",\"horsepower\":503,\"transmission\":\"Automatic\",\"fuelType\":\"Petrol\",\"year\":2023}",
+    "specsJson": "{\"color\":\"black\",\"kind\":\"coupe\",\"doors\":2}",
     "Category_Id": 4
   },
   {
@@ -24,39 +24,79 @@
     "Description": "A plane in the shape of car.",
     "Price": 700000,
     "Stock_Quantity": 20,
-    "Image_Url": "https://www.icartea.com/wiki/mitsubishi-lancer-a-timeless-favorite-among-compact-cars",
-    "Brand": "Lancer Shark",
-    "specsJson": "{\"color\":\"white\",\"kind\":\"Sidan\",\"doors\":4}",
+    "Image_Url": "https://www.icartea.com/wiki/mitsubishi-lancer",
+    "Brand": "Mitsubishi",
+    "specsJson": "{\"color\":\"white\",\"kind\":\"sedan\",\"doors\":4}",
     "Category_Id": 4
   },
   {
-    "Name": "Leather Steering Wheel Cover",
-    "Description": "Premium leather cover for enhanced grip.",
-    "Price": 350,
-    "Stock_Quantity": 100,
-    "Image_Url": "https://example.com/steering-cover",
-    "Brand": "CarStyle",
-    "specsJson": "{\"material\":\"genuine leather\",\"color\":\"black\",\"diameter\":\"38cm\",\"compatibility\":\"universal\"}",
-    "Category_Id": 7
+    "Name": "Audi RS7",
+    "Description": "Pure elegance meets raw power.",
+    "Price": 1200000,
+    "Stock_Quantity": 2,
+    "Image_Url": "https://example.com/audi-rs7",
+    "Brand": "Audi",
+    "specsJson": "{\"color\":\"Nardo Grey\",\"kind\":\"sportback\",\"doors\":4}",
+    "Category_Id": 3
   },
   {
-    "Name": "Alloy Wheel Set",
-    "Description": "Lightweight alloy wheels for performance and style.",
-    "Price": 12000,
-    "Stock_Quantity": 15,
-    "Image_Url": "https://example.com/alloy-wheels",
-    "Brand": "SpeedRim",
-    "specsJson": "{\"size\":\"18 inch\",\"color\":\"gunmetal\",\"material\":\"aluminum alloy\",\"bolts\":5,\"quantity\":4}",
-    "Category_Id": 8
+    "Name": "Porsche 911 Turbo",
+    "Description": "The ultimate driving machine.",
+    "Price": 2500000,
+    "Stock_Quantity": 1,
+    "Image_Url": "https://example.com/porsche-911",
+    "Brand": "Porsche",
+    "specsJson": "{\"color\":\"Silver\",\"kind\":\"coupe\",\"doors\":2}",
+    "Category_Id": 3
   },
   {
-    "Name": "LED Headlight Kit",
-    "Description": "Ultra-bright LED headlights for better night visibility.",
-    "Price": 2500,
-    "Stock_Quantity": 40,
-    "Image_Url": "https://example.com/led-headlights",
-    "Brand": "BrightDrive",
-    "specsJson": "{\"type\":\"LED\",\"brightness\":\"6000K\",\"wattage\":\"55W\",\"compatibility\":\"H4/H7\",\"quantity\":2}",
-    "Category_Id": 10
+    "Name": "Toyota Supra",
+    "Description": "The legend is back.",
+    "Price": 950000,
+    "Stock_Quantity": 5,
+    "Image_Url": "https://example.com/toyota-supra",
+    "Brand": "Toyota",
+    "specsJson": "{\"color\":\"Yellow\",\"kind\":\"coupe\",\"doors\":2}",
+    "Category_Id": 4
+  },
+  {
+    "Name": "Range Rover Sport",
+    "Description": "Luxury on and off the road.",
+    "Price": 1800000,
+    "Stock_Quantity": 6,
+    "Image_Url": "https://example.com/range-rover",
+    "Brand": "Land Rover",
+    "specsJson": "{\"color\":\"Blue\",\"kind\":\"SUV\",\"doors\":4}",
+    "Category_Id": 5
+  },
+  {
+    "Name": "Tesla Model S",
+    "Description": "The future of electric performance.",
+    "Price": 1100000,
+    "Stock_Quantity": 8,
+    "Image_Url": "https://example.com/tesla-s",
+    "Brand": "Tesla",
+    "specsJson": "{\"color\":\"White\",\"kind\":\"sedan\",\"doors\":4}",
+    "Category_Id": 6
+  },
+  {
+    "Name": "Ford Mustang GT",
+    "Description": "Classic American muscle.",
+    "Price": 850000,
+    "Stock_Quantity": 10,
+    "Image_Url": "https://example.com/mustang-gt",
+    "Brand": "Ford",
+    "specsJson": "{\"color\":\"Orange\",\"kind\":\"coupe\",\"doors\":2}",
+    "Category_Id": 4
+  },
+  {
+    "Name": "Volkswagen Golf R",
+    "Description": "The ultimate daily driver.",
+    "Price": 650000,
+    "Stock_Quantity": 12,
+    "Image_Url": "https://example.com/golf-r",
+    "Brand": "Volkswagen",
+    "specsJson": "{\"color\":\"Lapiz Blue\",\"kind\":\"hatchback\",\"doors\":4}",
+    "Category_Id": 4
   }
 ]

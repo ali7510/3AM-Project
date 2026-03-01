@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Ecommerce.Domain.Contracts;
 using Ecommerce.Domain.ProductModule;
+using Ecommerce.ServiceAbstraction.ICloudinaryServices;
 using Ecommerce.ServiceAbstraction.IProductServices;
 using Ecommerce.Shared.ProductDTOs;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Ecommerce.Service.ProductServices
@@ -16,11 +18,28 @@ namespace Ecommerce.Service.ProductServices
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ICloudinaryService _cloudinaryService;
 
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
+        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, ICloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _cloudinaryService = cloudinaryService;
+        }
+
+        public async Task<ProductDTO> AddProductAsync(AddProductDTO productDTO)
+        {
+            if (productDTO == null)
+                throw new ArgumentNullException(nameof(productDTO));
+
+            if(productDTO.Category_Id == 1 || productDTO.Category_Id == 2)
+                throw new ArgumentException("Invalid category ID. Category ID cannot be 1 or 2.");
+
+            var product = _mapper.Map<Product>(productDTO);
+            product.Image_Url = await _cloudinaryService.UploadImageAsync(productDTO.ImageFile);
+            await _unitOfWork.GetRepository<Product>().AddAsync(product);
+            await _unitOfWork.SaveChanges();
+            return _mapper.Map<ProductDTO>(product);
         }
 
         public async Task<IEnumerable<ProductDTO>> GetAllAccessories()
@@ -49,10 +68,14 @@ namespace Ecommerce.Service.ProductServices
             return _mapper.Map<IEnumerable<ProductDTO>>(vehicles);
         }
 
-        public async Task<ProductDTO> GetProductByIdAsync(int id)
+        public async Task<ProductDTO> GetProductByIdAsync(int id, int? w, int? h)
         {
             var Product = await _unitOfWork.GetRepository<Product>().GetByIdAsync(id, p=>p.Category);
-            return _mapper.Map<ProductDTO>(Product);
+            if (Product == null)
+                throw new KeyNotFoundException($"Product with ID {id} not found.");
+            var productDTO = _mapper.Map<ProductDTO>(Product);
+            productDTO.ImageUrl = _cloudinaryService.CustomImgUrl(Product.Image_Url, w, h);
+            return _mapper.Map<ProductDTO>(productDTO);
         }
 
         public async Task<IEnumerable<ProductDTO>> GetProductsByCategoryAsync(int categoryId)

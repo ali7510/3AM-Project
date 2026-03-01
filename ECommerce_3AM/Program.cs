@@ -6,6 +6,7 @@ using Ecommerce.Persistence.Data.DBcontexts;
 using Ecommerce.Persistence.Repository;
 using Ecommerce.Service;
 using Ecommerce.Service.AuthServices;
+using Ecommerce.Service.CloudinaryServices;
 using Ecommerce.Service.DashboardServices;
 using Ecommerce.Service.MappingProfiles;
 using Ecommerce.Service.PaymentServices;
@@ -14,6 +15,7 @@ using Ecommerce.Service.ProfileServices;
 using Ecommerce.ServiceAbstraction;
 using Ecommerce.ServiceAbstraction.AuthServices;
 using Ecommerce.ServiceAbstraction.IAuthServices;
+using Ecommerce.ServiceAbstraction.ICloudinaryServices;
 using Ecommerce.ServiceAbstraction.IDashboardServices;
 using Ecommerce.ServiceAbstraction.IPaymentServices;
 using Ecommerce.ServiceAbstraction.IProductServices;
@@ -21,6 +23,7 @@ using Ecommerce.ServiceAbstraction.IProfileServices;
 using ECommerce_3AM.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 
 namespace ECommerce_3AM
@@ -29,6 +32,7 @@ namespace ECommerce_3AM
     {
         public static async Task Main(string[] args)
         {
+            //System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -79,6 +83,16 @@ namespace ECommerce_3AM
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
+            builder.Services.AddDbContext<StoreDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+                    sqlOptions => sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(10),
+                        errorNumbersToAdd: null
+                    )
+                )
+            );
             builder.Services.AddHttpClient("MyFatoorah", client =>
             {
                 var baseUrl = builder.Configuration["MyFatoorah:BaseUrl"]!;
@@ -108,26 +122,42 @@ namespace ECommerce_3AM
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(
                             Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])
-                        )
+                        ),
+                        RoleClaimType = ClaimTypes.Role,
+                        NameClaimType = ClaimTypes.Name  
                     };
                 });
+            builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+
 
             var app = builder.Build();
+
+            app.Use(async (context, next) =>
+            {
+                try
+                {
+                    await next();
+                }
+                catch (Exception ex)
+                {
+                    context.Response.ContentType = "text/plain";
+                    context.Response.StatusCode = 500;
+                    await context.Response.WriteAsync($"ERROR: {ex.Message}\n\nINNER: {ex.InnerException?.Message}\n\nSTACK: {ex.StackTrace}");
+                }
+            });
+
 
             app.UseAuthentication();
             app.UseAuthorization();
 
             #region DataSeed
-            await app.MigrateDatabaseAsync();
-            await app.SeedDataAsync();
+            //await app.MigrateDatabaseAsync();
+            //await app.SeedDataAsync();
             #endregion
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
 

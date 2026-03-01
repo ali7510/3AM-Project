@@ -1,4 +1,5 @@
-﻿using Ecommerce.Domain.UserModule;
+﻿using CloudinaryDotNet.Actions;
+using Ecommerce.Domain.UserModule;
 using Ecommerce.ServiceAbstraction.IAuthServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -24,6 +25,8 @@ namespace Ecommerce.Service.AuthServices
 
         public string GenerateAccessToken(User user)
         {
+            Console.WriteLine($"DEBUG ROLE: '{user.Role}' | ToString: '{user.Role.ToString()}'");
+
             var claims = new[]
             {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),

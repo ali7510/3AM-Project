@@ -15,7 +15,7 @@ namespace Ecommerce.Shared.ProductDTOs
         public int Quantity { get; set; }
         public string ImageUrl { get; set; } = null!;
         public string Brand { get; set; } = null!;
-        public string? SpecsJson { get; set; }
+        public object? SpecsJson { get; set; }
         public string CategoryName { get; set; } = null!;
     }
 }

@@ -10,10 +10,11 @@ namespace Ecommerce.ServiceAbstraction.IProductServices
     public interface IProductService
     {
         public Task<IEnumerable<ProductDTO>> GetAllProductsAsync();
-        public Task<ProductDTO> GetProductByIdAsync(int id);
+        public Task<ProductDTO> GetProductByIdAsync(int id, int? w, int? h);
         public Task<IEnumerable<CategoryDTO>> GetAllCategoriesAsync();
         public Task<IEnumerable<ProductDTO>> GetProductsByCategoryAsync(int categoryId);
         public Task<IEnumerable<ProductDTO>> GetAllVehicles();
         public Task<IEnumerable<ProductDTO>> GetAllAccessories();
+        public Task<ProductDTO> AddProductAsync(AddProductDTO productDTO);
     }
 }

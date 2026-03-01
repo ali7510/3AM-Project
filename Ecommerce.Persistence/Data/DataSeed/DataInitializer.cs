@@ -47,21 +47,16 @@ namespace Ecommerce.Persistence.Data.DataSeed
                     await SeedDataFromJson<Category>("Categories.json", _dbContext.Categories);
                 }
 
-                if (!hasProducts)
-                {
-                    Console.WriteLine("Seeding products...");
-                    await SeedDataFromJson<Product>("Products.json", _dbContext.Products);
-                }
-
                 if (!hasUsers)
                 {
                     Console.WriteLine("Seeding users...");
                     await SeedDataFromJson<User>("Users.json", _dbContext.Users);
                 }
-                if (!hasOrders)
+
+                if (!hasProducts)
                 {
-                    Console.WriteLine("Seeding orders...");
-                    await SeedDataFromJson<Order>("Orders.json", _dbContext.Orders);
+                    Console.WriteLine("Seeding products...");
+                    await SeedDataFromJson<Product>("Products.json", _dbContext.Products);
                 }
 
                 if (!hasCarts)
@@ -69,6 +64,15 @@ namespace Ecommerce.Persistence.Data.DataSeed
                     Console.WriteLine("Seeding carts...");
                     await SeedDataFromJson<Cart>("Carts.json", _dbContext.Carts);
                 }
+
+
+                if (!hasOrders)
+                {
+                    Console.WriteLine("Seeding orders...");
+                    await SeedDataFromJson<Order>("Orders.json", _dbContext.Orders);
+                }
+
+
                 if (!hasCartItems)
                 {
                     Console.WriteLine("Seeding cart items...");

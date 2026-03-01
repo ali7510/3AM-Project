@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Ecommerce.ServiceAbstraction.IProductServices;
 using Ecommerce.Shared.ProductDTOs;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Ecommerce.Domain.UserModule;
 
 
 namespace Ecommerce.Presentation.Controllers
@@ -30,11 +32,25 @@ namespace Ecommerce.Presentation.Controllers
             return Ok(products);
         }
 
+        [HttpPost("add-product")]
+        [Authorize(Roles = "Admin")]
+        // Post: BaseURL/api/products
+        public async Task<ActionResult<ProductDTO>> CreateProduct([FromForm] AddProductDTO productCreateDTO)
+        {
+            var createdProduct = await _productService.AddProductAsync(productCreateDTO);
+
+            return CreatedAtAction(
+                nameof(GetProduct), 
+                new { id = createdProduct.Id },
+                createdProduct
+            );
+        }
+
         [HttpGet("{id}")]
         // Get: BaseURL/api/products/id
-        public async Task<ActionResult<ProductDTO>> GetProduct(int id)
+        public async Task<ActionResult<ProductDTO>> GetProduct(int id, [FromQuery] int? w, [FromQuery] int? h)
         {
-            var product = await _productService.GetProductByIdAsync(id);
+            var product = await _productService.GetProductByIdAsync(id, w, h);
             return Ok(product);
         }
 

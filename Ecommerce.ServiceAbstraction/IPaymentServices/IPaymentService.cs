@@ -11,7 +11,7 @@ namespace Ecommerce.ServiceAbstraction.IPaymentServices
 {
     public interface IPaymentService
     {
-        Task<PaymentResponseDTO> ConfirmPaymentAsync(int userId, PaymentMethod method);
-        Task HandleCallbackAsync(string invoiceId);
+        Task<PaymentResponseDTO> ConfirmPaymentAsync(int userId, PaymentMethod method, string frontendUrl);
+        Task<int> HandleCallbackAsync(string invoiceId);
     }
 }

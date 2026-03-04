@@ -14,7 +14,7 @@ namespace Ecommerce.Service.PaymentServices
         public string BaseUrl { get; set; } = string.Empty;
         public string ApiKey { get; set; } = string.Empty;
         public string CallbackUrl { get; set; } = string.Empty;
-        public string ErrorUrl { get; set; } = string.Empty;
+        public string ReturnUrl { get; set; } = string.Empty;
 
     }
 }

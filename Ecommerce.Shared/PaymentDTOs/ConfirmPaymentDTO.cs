@@ -10,5 +10,6 @@ namespace Ecommerce.Shared.PaymentDTOs
     public class ConfirmPaymentDTO
     {
         public PaymentMethod Method { get; set; }
+        public string FrontendUrl { get; set; } = string.Empty;
     }
 }

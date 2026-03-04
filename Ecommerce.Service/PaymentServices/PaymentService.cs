@@ -36,8 +36,9 @@ namespace Ecommerce.Service.PaymentServices
             _settings = settings.Value;
         }
 
-        public async Task<PaymentResponseDTO> ConfirmPaymentAsync(int userId, PaymentMethod method)
+        public async Task<PaymentResponseDTO> ConfirmPaymentAsync(int userId, PaymentMethod method, string frontendUrl)
         {
+            var encodedFrontendUrl = Uri.EscapeDataString(frontendUrl);
             // Step A: Get cart with items and products
             var cartRepo = _unitOfWork.GetRepository<Cart>();
             var cart = await cartRepo.GetByAttribute(c => c.User_Id == userId);
@@ -107,10 +108,12 @@ namespace Ecommerce.Service.PaymentServices
             var invoiceRequest = new
             {
                 CustomerName = user.Name,
+                CustomerEmail = user.Email,
+                CustomerMobile = user.Phone,
                 NotificationOption = "ALL",
                 InvoiceValue = total,
-                CallbackUrl = _settings.CallbackUrl,
-                ErrorUrl = _settings.ErrorUrl
+                CallBackUrl = $"{_settings.CallbackUrl}?frontendUrl={encodedFrontendUrl}",
+                ReturnUrl = frontendUrl
             };
 
             var response = await client.PostAsJsonAsync("/v2/SendPayment", invoiceRequest);
@@ -151,44 +154,43 @@ namespace Ecommerce.Service.PaymentServices
             };
         }
 
-        public async Task HandleCallbackAsync(string invoiceId)
+        public async Task<int> HandleCallbackAsync(string paymentId)
         {
-            // Step A: Find payment by ExternalPaymentId
+            var client = _httpClientFactory.CreateClient("MyFatoorah");
+
+            // Step A: Verify with MyFatoorah FIRST using paymentId
+            var verifyRequest = new
+            {
+                Key = paymentId,
+                KeyType = "PaymentId" 
+            };
+
+            var response = await client.PostAsJsonAsync("/v2/GetPaymentStatus", verifyRequest);
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new Exception($"MyFatoorah error: {response.StatusCode} - {errorContent}");
+
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<MyFatoorahPaymentStatusResponse>();
+
+            // Step B: Now find payment using InvoiceId returned from MyFatoorah
+            var invoiceId = result?.Data?.InvoiceId.ToString();
+
             var paymentRepo = _unitOfWork.GetRepository<Payment>();
-            var payment = await paymentRepo.GetByAttribute(p => p.ExternalPaymentId == invoiceId);
+            var payment = await paymentRepo.GetByAttribute(p => p.ExternalPaymentId == invoiceId); // ✅
 
             if (payment == null)
                 throw new Exception($"Payment with InvoiceId {invoiceId} not found.");
 
-            // Load the related order
+            // Step C: Load related order
             var orderRepo = _unitOfWork.GetRepository<Order>();
             var order = await orderRepo.GetByIdAsync(payment.Order_Id);
-
             if (order == null)
                 throw new Exception("Order not found.");
 
-            // Step B: Verify with MyFatoorah
-            var client = _httpClientFactory.CreateClient("MyFatoorah");
-
-            Console.WriteLine($"TOKEN BEING SENT: {_settings.ApiKey}");
-
-            Console.WriteLine($"BaseAddress: {client.BaseAddress}");
-            Console.WriteLine($"Auth: {client.DefaultRequestHeaders.Authorization}");
-
-            var verifyRequest = new
-            {
-                Key = invoiceId,
-                KeyType = "InvoiceId"
-            };
-
-            var response = await client.PostAsJsonAsync("/v2/GetPaymentStatus", verifyRequest);
-
-            if (!response.IsSuccessStatusCode)
-                throw new Exception("Failed to verify payment with MyFatoorah.");
-
-            var result = await response.Content.ReadFromJsonAsync<MyFatoorahPaymentStatusResponse>();
-
-            // Step C: Update based on result
+            // Step D: Update based on result
             if (result?.Data?.InvoiceStatus == "Paid")
             {
                 payment.Status = PaymentStatus.Paid;
@@ -206,6 +208,8 @@ namespace Ecommerce.Service.PaymentServices
             paymentRepo.Update(payment);
             orderRepo.Update(order);
             await _unitOfWork.SaveChanges();
+
+            return order.Id;
         }
     }
 
@@ -230,5 +234,6 @@ namespace Ecommerce.Service.PaymentServices
     public class PaymentStatusData
     {
         public string InvoiceStatus { get; set; } = string.Empty;
+        public int InvoiceId { get; set; }
     }
 }

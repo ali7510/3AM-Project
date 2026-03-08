@@ -22,6 +22,7 @@ namespace Ecommerce.Persistence.Data.Configurations
             builder.Property(p => p.Image_Url).HasColumnType("varchar(500)");
             builder.Property(p => p.Brand).HasColumnType("varchar(100)");
             builder.Property(p=>p.specsJson).HasColumnType("varchar(max)");
+            builder.Property(p=>p.isActive).HasDefaultValue(true);
             builder.HasOne(p=>p.Category)
                    .WithMany(c => c.Products)
                    .HasForeignKey(p => p.Category_Id)

@@ -143,8 +143,6 @@ namespace Ecommerce.Service.PaymentServices
 
             await _unitOfWork.SaveChanges();
 
-            await _cartService.ClearCart(userId);
-
             return new PaymentResponseDTO
             {
                 Success = true,
@@ -207,6 +205,7 @@ namespace Ecommerce.Service.PaymentServices
 
             paymentRepo.Update(payment);
             orderRepo.Update(order);
+            await _cartService.ClearCart(order.User_Id);
             await _unitOfWork.SaveChanges();
 
             return order.Id;

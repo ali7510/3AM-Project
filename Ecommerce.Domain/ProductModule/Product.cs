@@ -18,13 +18,13 @@ namespace Ecommerce.Domain.ProductModule
         public string Image_Url { get; set; } = default!;
         public string Brand { get; set; } = default!;
         public string? specsJson { get; set; }
+        public bool isActive { get; set; } = true;
 
         #region Relationships
         public int Category_Id { get; set; }
         public Category Category { get; set; } = default!;
 
         public ICollection<OrderItem> orderItems { get; set; } = new List<OrderItem>();
-
         public ICollection<CartItem> cartItems { get; set; } = new List<CartItem>();
         #endregion
     }

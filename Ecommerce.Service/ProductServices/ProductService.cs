@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Ecommerce.Domain.Contracts;
+using Ecommerce.Domain.OrderModule;
 using Ecommerce.Domain.ProductModule;
 using Ecommerce.ServiceAbstraction.ICloudinaryServices;
 using Ecommerce.ServiceAbstraction.IProductServices;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -42,6 +44,20 @@ namespace Ecommerce.Service.ProductServices
             return _mapper.Map<ProductDTO>(product);
         }
 
+        public async Task<bool> ToggleProductAsync(int id)
+        {
+            var product = await _unitOfWork.GetRepository<Product>().GetByIdAsync(id);
+            if (product == null)
+                throw new ArgumentException("Prdoduct is not exist!");
+
+            if(product.isActive == true)
+                product.isActive = false;
+            else
+                product.isActive = true;
+
+            return await _unitOfWork.SaveChanges()>0;
+        }
+
         public async Task<IEnumerable<ProductDTO>> GetAllAccessories()
         {
             var accessories = await _unitOfWork.GetRepository<Product>().GetAllAsync(default, p => p.Category);
@@ -55,9 +71,15 @@ namespace Ecommerce.Service.ProductServices
             return _mapper.Map<IEnumerable<CategoryDTO>>(Categories);
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetAllProductsAsync()
+        public async Task<IEnumerable<FullProductDTO>> GetAllProductsAsync()
         {
             var Products = await _unitOfWork.GetRepository<Product>().GetAllAsync(default,p=>p.Category);
+            return _mapper.Map<IEnumerable<FullProductDTO>>(Products);
+        }
+
+        public async Task<IEnumerable<ProductDTO>> GetAllActiveProductsAsync()
+        {
+            var Products = await _unitOfWork.GetRepository<Product>().GetAllAsync(p=>p.isActive==true, p => p.Category);
             return _mapper.Map<IEnumerable<ProductDTO>>(Products);
         }
 
@@ -82,6 +104,47 @@ namespace Ecommerce.Service.ProductServices
         {
             var products = await _unitOfWork.GetRepository<Product>().GetAllAsync(p=>p.Category_Id == categoryId, p=>p.Category);
             return _mapper.Map<IEnumerable<ProductDTO>>(products);
+        }
+
+        public async Task<ProductDTO> UpdateProductAsync(int id, UpdateProductDTO productDTO)
+        {
+            if (productDTO == null)
+                throw new ArgumentNullException(nameof(productDTO));
+
+            var product = await _unitOfWork.GetRepository<Product>().GetByIdAsync(id, P=>P.Category);
+
+            if (product == null)
+                throw new KeyNotFoundException($"Product with ID {id} not found.");
+
+            if (productDTO.ImageFile != null)
+                product.Image_Url = await _cloudinaryService.UploadImageAsync(productDTO.ImageFile);
+            else
+                product.Image_Url = product.Image_Url;
+
+            if (productDTO.Price == 0 || productDTO.Price is null)
+                product.Price = product.Price;
+            else
+                product.Price = (decimal)productDTO.Price;
+
+            if (productDTO.Stock_Quantity == 0 || productDTO.Stock_Quantity is null)
+                product.Stock_Quantity = product.Stock_Quantity;
+            else
+                product.Stock_Quantity = (int)productDTO.Stock_Quantity;
+
+            if (productDTO.Name is null || productDTO.Name == string.Empty)
+                product.Name = product.Name;
+            else
+                product.Name = productDTO.Name;
+
+            if (productDTO.Description is null || productDTO.Description == string.Empty)
+                product.Description = product.Description;
+            else
+                product.Description = productDTO.Description;
+
+            await _unitOfWork.SaveChanges();
+
+            return _mapper.Map<ProductDTO>(product);
+
         }
     }
 }

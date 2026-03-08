@@ -18,7 +18,6 @@ namespace Ecommerce.Domain.UserModule
 
         #region Relationships
         public ICollection<Order> Orders { get; set; } = new List<Order>();
-
         public Cart Cart { get; set; } = default!;
 
         public string? OtpCode { get; set; }

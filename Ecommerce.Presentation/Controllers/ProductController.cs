@@ -25,12 +25,23 @@ namespace Ecommerce.Presentation.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         // Get: BaseURL/api/products
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllProducts()
+        public async Task<ActionResult<IEnumerable<FullProductDTO>>> GetAllProducts()
         {
             var products = await _productService.GetAllProductsAsync();
             return Ok(products);
         }
+
+
+        [HttpGet("available-products")]
+        // Get: BaseURL/api/products
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetActiveProducts()
+        {
+            var products = await _productService.GetAllActiveProductsAsync();
+            return Ok(products);
+        }
+
 
         [HttpPost("add-product")]
         [Authorize(Roles = "Admin")]
@@ -44,6 +55,25 @@ namespace Ecommerce.Presentation.Controllers
                 new { id = createdProduct.Id },
                 createdProduct
             );
+        }
+
+        [HttpPut("update-product/{id}")]
+        [Authorize(Roles = "Admin")]
+        // Put: BaseURL/api/products/update-product/id
+        public async Task<ActionResult<ProductDTO>> UpdateProduct(int id, [FromForm] UpdateProductDTO productUpdateDTO)
+        {
+            var updatedProduct = await _productService.UpdateProductAsync(id, productUpdateDTO);
+            return Ok(updatedProduct);
+        }
+
+        [HttpDelete("toggle-product/{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> ToggleProduct(int id)
+        {
+            var success = await _productService.ToggleProductAsync(id);
+            if (!success)
+                return NotFound();
+            return NoContent();
         }
 
         [HttpGet("{id}")]
